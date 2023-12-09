@@ -1,0 +1,17 @@
+<launch>
+	<node name="serial1" pkg="rosserial_python" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/ttyACM0"/>
+        <param name="baud" value="115200"/>
+    </node>
+    <node name="serial2" pkg="rosserial_python" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/ttyACM1"/>
+        <param name="baud" value="115200"/>
+    </node>
+
+    <node name="joycon" pkg="joycon" type="mobility_controler.py" output="screen"/> 
+    <!-- <node name="joycon" pkg="joycon" type="joy_to_twist.py" output="screen"/> -->
+    <node name="joyport" pkg="joy" type="joy_node" output="screen"/>
+
+    <node name="rover" pkg="osr" type="rover.py" output="screen"/>
+		
+</launch>

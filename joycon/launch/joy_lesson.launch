@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find joy)/launch/ps4joy.launch"/>
+    <node name="turtle" pkg="turtlesim" type="turtlesim_node" output="screen"/>
+    <node name="joy_to_twist" pkg="minirover" type="joy_to_twist.py" output="screen"/>
+</launch>
