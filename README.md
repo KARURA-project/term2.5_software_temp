@@ -5,4 +5,6 @@ sudo apt install ros-noetic-joy
 sudo spt install ros-noetic-rosserial  
 
 ## to wakeup rover...  
-roslaunch joycon simple_run.launch
+roslaunch joycon simple_run.launch  
+or...
+roslaunch joycon simple_run2.launch  
