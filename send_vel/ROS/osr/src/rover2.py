@@ -236,10 +236,34 @@ class Rover(object):
             return cmd_msg
 
     def calculate_drive_velocities_karura_term2(self, twist):
-        speed =  0.95*pow(twist.linear.x**2+twist.linear.y**2,0.5) #m/s
-        left_wheel_direct = (-1) * math.sin(twist.angular.z - pi/4)
-        right_wheel_direct = math.sin(twist.angular.z + pi/4)
         
+        x=twist.linear.x
+        y=twist.linear.y
+        angular_z = twist.angular.z
+        #angular_z < 0 turn left
+        #angular_z > 0 turn right 
+        #angular_z = 0 straight
+        #speed =x^2+y^2
+        #speed = max(-self.max_vel, min(self.max_vel, speed))
+        if angular_z == 0:
+            speed = pow(x**2+y**2,0.5)
+            left_wheel_direct=1
+            right_wheel_direct=1
+        elif angular_z > 0:
+            speed = angular_z * self.wheel_distance_width / 2
+            left_wheel_direct=1
+            right_wheel_direct=-1
+        elif angular_z < 0:
+            speed = -angular_z * self.wheel_distance_width / 2
+            left_wheel_direct=-1
+            right_wheel_direct=1
+        else:
+            speed = 0
+            left_wheel_direct=1
+            right_wheel_direct=1
+
+        speed = max(-self.max_vel, min(self.max_vel, speed))
+
         cmd_msg = CommandDrive()
         cmd_msg.left_front_vel = speed * left_wheel_direct
         cmd_msg.left_middle_vel = speed * left_wheel_direct
@@ -247,6 +271,7 @@ class Rover(object):
         cmd_msg.right_back_vel = speed * right_wheel_direct
         cmd_msg.right_middle_vel = speed * right_wheel_direct
         cmd_msg.right_front_vel = speed * right_wheel_direct
+
 
         return cmd_msg
 
